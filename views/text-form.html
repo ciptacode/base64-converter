@@ -1,0 +1,24 @@
+<div class="row" id="text-form">
+    <form class="col-6" hx-post="/text" hx-target="#text-form" hx-swap="outerHTML">
+        <div class="mb-3">
+            <label for="text" class="form-label">Text</label>
+            <textarea name="text" class="form-control" id="text" rows="8">{{ .Text }}</textarea>
+        </div>
+        <input name="type" type="hidden" value="encode">
+        <button type="submit" class="btn btn-primary">Encode text to Base64</button>
+    </form>
+
+    <form class="col-6" hx-post="/text" hx-target="#text-form" hx-swap="outerHTML">
+        <div class="mb-3">
+            <label for="base64" class="form-label">Base64</label>
+            <textarea id="text-base64" name="base64" class="form-control {{ if .Base64Err }} is-invalid {{end}}" id="result" rows="8">{{ .Base64 }}</textarea>
+            {{ if .Base64Err }}
+            <div class="invalid-feedback">
+                {{ .Base64Err }}
+            </div>
+            {{ end }}
+        </div>
+        <input name="type" type="hidden" value="decode">
+        <button type="submit" class="btn btn-primary float-end">Decode Base64 to text</button>
+    </form>
+</div>
