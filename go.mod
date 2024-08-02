@@ -1,6 +1,6 @@
 module github.com/ciptacode/base64-converter
 
-go 1.22.2
+go 1.21.11
 
 require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
