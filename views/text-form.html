@@ -11,7 +11,7 @@
     <form class="col-6" hx-post="/text" hx-target="#text-form" hx-swap="outerHTML">
         <div class="mb-3">
             <label for="base64" class="form-label">Base64</label>
-            <textarea id="text-base64" name="base64" class="form-control {{ if .Base64Err }} is-invalid {{end}}" id="result" rows="8">{{ .Base64 }}</textarea>
+            <textarea id="base64" name="base64" class="form-control {{ if .Base64Err }} is-invalid {{end}}" id="result" rows="8">{{ .Base64 }}</textarea>
             {{ if .Base64Err }}
             <div class="invalid-feedback">
                 {{ .Base64Err }}

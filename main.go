@@ -16,13 +16,15 @@ func main() {
 	engine := html.New("./views", ".html")
 
 	app := fiber.New(fiber.Config{
-		Views: engine,
+		Views:     engine,
+		BodyLimit: 10 * 1024 * 1024,
 	})
 
 	app.Get("/", handler.Text)
 	app.Post("/text", handler.TextSubmit)
 
-	app.Get("/file", handler.File)
+	app.Get("/file-to-base64", handler.File)
+	app.Post("/file-to-base64", handler.FileSubmit)
 
 	app.Listen(":" + os.Getenv("PORT"))
 }

@@ -1,0 +1,86 @@
+<!doctype html>
+<!-- Curious about our stack? It's GO Fiber, HTMX, Bootstrap CSS, and a dozen cups of coffee ;) -->
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Base64 Converter</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://unpkg.com/htmx.org@2.0.1"></script>
+</head>
+
+<body>
+    <div class="container py-5">
+        <h1>Base64 Converter</h1>
+
+        <div class="py-3">
+            <ul class="nav nav-pills flex-column flex-sm-row">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/">Text</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/file-to-base64">File to Base64</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/base64-to-file">Base64 to File</a>
+                </li>
+            </ul>
+        </div>
+
+        <p></p>
+        <div class="row" id="file-form">
+            <form id="form" class="mb-3" hx-encoding='multipart/form-data' hx-post='/file-to-base64' hx-target="#file-form" hx-swap="outerHTML">
+                <div class="mb-3">
+                    <label class="form-label" for="file">File</label>
+                    <input name="file" id="file" type="file" class="form-control">
+                    <progress class="d-none w-100" id="progress" value="0" max="100"></progress>
+                </div>
+
+                <button id="btnSubmit" disabled type="submit" class="btn btn-primary">Encode file to Base64</button>
+            </form>
+
+            <div>
+                <label class="form-label" for="result">Result</label>
+                <textarea class="form-control" rows="10" name="result" id="result"></textarea>
+            </div>
+
+            <script>
+                document.getElementById("file").addEventListener("change", function showFileSize() {
+                    if (!window.FileReader) {
+                        alert("The file API isn't supported on this browser yet.");
+                        return;
+                    }
+        
+                    const input = document.getElementById('file');
+                    if (!input.files) {
+                        alert("This browser doesn't seem to support the `files` property of file inputs.");
+                    } else if (!input.files[0]) {
+                        alert("Please select a file before clicking 'Load'");
+                    } else {
+                        const file = input.files[0];
+        
+                        if (file.size > 10000000) {
+                            document.getElementById('btnSubmit').setAttribute('disabled', true)
+                            input.value = ''
+        
+                            alert('File too large!')
+                        } else {
+                            document.getElementById('btnSubmit').removeAttribute('disabled')
+                        }
+                    }
+                });
+            </script>
+
+            <script>
+                htmx.on('#form', 'htmx:xhr:progress', function(evt) {
+                    document.getElementById('progress').classList.remove('d-none')
+
+                    htmx.find('#progress').setAttribute('value', evt.detail.loaded/evt.detail.total * 100)
+                });
+            </script>
+        </div>
+    </div>
+</body>
+
+</html>

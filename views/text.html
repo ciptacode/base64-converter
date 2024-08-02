@@ -13,11 +13,27 @@
 <body>
     <div class="container py-5">
         <h1>Base64 Converter</h1>
+
+        <div class="py-3">
+            <ul class="nav nav-pills flex-column flex-sm-row">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Text</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/file-to-base64">File to Base64</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/base64-to-file">Base64 to File</a>
+                </li>
+            </ul>
+        </div>
+
         <p>The Base64 online converter supports both functions of the algorithm on same page. If you need to encode a
             text
             to Base64, fill in the "Text" field and press "Encode text to Base64" — the result will appear in the
             "Base64"
-            field. Otherwise, if you have a Base64 string, paste it into the "Base64" field and press "Decode Base64 to text"
+            field. Otherwise, if you have a Base64 string, paste it into the "Base64" field and press "Decode Base64 to
+            text"
             — the result will appear in the "Text" field.</p>
         <div class="row" id="text-form">
             <form class="col-6" hx-post="/text" hx-target="#text-form" hx-swap="outerHTML">
@@ -32,7 +48,8 @@
             <form class="col-6" hx-post="/text" hx-target="#text-form" hx-swap="outerHTML">
                 <div class="mb-3">
                     <label for="base64" class="form-label">Base64</label>
-                    <textarea id="text-base64" name="base64" class="form-control" id="result" rows="8">{{ .Base64 }}</textarea>
+                    <textarea id="base64" name="base64" class="form-control" id="result"
+                        rows="8">{{ .Base64 }}</textarea>
                 </div>
                 <input name="type" type="hidden" value="decode">
                 <button type="submit" class="btn btn-primary float-end">Decode Base64 to text</button>
