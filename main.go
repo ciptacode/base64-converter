@@ -17,6 +17,13 @@ func main() {
 
 	createFolderResult()
 
+	go func() {
+		for {
+			cleanUpOldFiles("public/result", 5*time.Minute)
+			time.Sleep(1 * time.Minute)
+		}
+	}()
+
 	engine := html.New("./views", ".html")
 
 	app := fiber.New(fiber.Config{
@@ -35,13 +42,6 @@ func main() {
 	app.Post("/base64-to-file", handler.Base64ToFileSubmit)
 
 	app.Listen(":" + os.Getenv("PORT"))
-
-	go func() {
-		for {
-			cleanUpOldFiles("public/result", 5*time.Minute)
-			time.Sleep(1 * time.Minute)
-		}
-	}()
 }
 
 func loadEnv() {
