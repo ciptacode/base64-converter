@@ -1,0 +1,26 @@
+<div class="row" id="base64-form">
+    <form id="form" class="mb-3" hx-post='/base64-to-file' hx-target="#base64-form" hx-swap="outerHTML">
+        <div class="mb-3">
+            <label class="form-label" for="base64">Base64</label>
+            <textarea id="base64" name="base64" class="form-control {{ if .Base64Err }} is-invalid {{end}}" id="result" rows="8">{{ .Base64 }}</textarea>
+            {{ if .Base64Err }}
+            <div class="invalid-feedback">
+                {{ .Base64Err }}
+            </div>
+            {{ end }}
+        </div>
+
+        <button id="btnSubmit" type="submit" class="btn btn-primary">Decode Base64 to File</button>
+    </form>
+
+    <div class="mb-3">
+        <label>Result</label>
+        <br>
+        {{ if .Result }}
+            <a target="_blank" href="/result/{{ .Result }}">{{ .Result }}</a>
+            <a download href="/result/{{ .Result }}" class="btn btn-sm btn-secondary">Download</a>
+            <br>
+            <small>file will be lost after 5 minutes</small>
+        {{ end }}
+    </div>
+</div>
