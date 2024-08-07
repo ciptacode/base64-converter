@@ -84,6 +84,7 @@ func Base64ToFileSubmit(c *fiber.Ctx) error {
 	parts := strings.Split(payload.Base64, ",")
 	if len(parts) != 2 {
 		return c.Render("base64-to-file-result", fiber.Map{
+			"Base64":    payload.Base64,
 			"Base64Err": "invalid base64 format",
 		})
 	}
@@ -91,6 +92,7 @@ func Base64ToFileSubmit(c *fiber.Ctx) error {
 	mimeParts := strings.Split(parts[0], ":")
 	if len(mimeParts) != 2 {
 		return c.Render("base64-to-file-result", fiber.Map{
+			"Base64":    payload.Base64,
 			"Base64Err": "invalid MIME type",
 		})
 	}
@@ -99,6 +101,7 @@ func Base64ToFileSubmit(c *fiber.Ctx) error {
 	mimeTypeParts := strings.Split(mimeType, "/")
 	if len(mimeTypeParts) != 2 {
 		return c.Render("base64-to-file-result", fiber.Map{
+			"Base64":    payload.Base64,
 			"Base64Err": "invalid MIME type",
 		})
 	}
@@ -111,6 +114,7 @@ func Base64ToFileSubmit(c *fiber.Ctx) error {
 	data, err := base64.StdEncoding.DecodeString(parts[1])
 	if err != nil {
 		return c.Render("base64-to-file-result", fiber.Map{
+			"Base64":    payload.Base64,
 			"Base64Err": "Base64 is invalid",
 		})
 	}
@@ -121,6 +125,7 @@ func Base64ToFileSubmit(c *fiber.Ctx) error {
 
 	if err := os.MkdirAll(dir, os.ModePerm); err != nil {
 		return c.Render("base64-to-file-result", fiber.Map{
+			"Base64":    payload.Base64,
 			"Base64Err": "Base64 is invalid",
 		})
 	}
@@ -128,6 +133,7 @@ func Base64ToFileSubmit(c *fiber.Ctx) error {
 	err = os.WriteFile(filepath, data, 0644)
 	if err != nil {
 		return c.Render("base64-to-file-result", fiber.Map{
+			"Base64":    payload.Base64,
 			"Base64Err": "Base64 is invalid",
 		})
 	}
